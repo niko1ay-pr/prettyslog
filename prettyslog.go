@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log/slog"
+	"strconv"
 	"sync"
 )
 
@@ -38,7 +39,7 @@ type Handler struct {
 }
 
 func (h *Handler) Enabled(ctx context.Context, level slog.Level) bool {
-	h.h.Enabled(ctx, level)
+	return h.h.Enabled(ctx, level)
 }
 
 func (h *Handler) WithAttrs(attrs []slog.Attr) slog.Handler {
@@ -70,6 +71,9 @@ func (h *Handler) Handle(ctx context.Context, r slog.Record) error {
 	}
 
 	bytes, err := json.MarshalIndent(attr, "", "  ")
+	if err != nil {
+		return fmt.Errorf("%s: %w", op, err)
+	}
 
 	fmt.Println(colorize(lightGray, r.Time.Format(timeFormat)),
 		level,
@@ -98,7 +102,7 @@ func NewHandler(opts *slog.HandlerOptions) *Handler {
 }
 
 func colorize(colorCode int, v string) string {
-	return fmt.Sprintf("\033[%sm%s%s", colorCode, v, reset)
+	return fmt.Sprintf("\033[%sm%s%s", strconv.Itoa(colorCode), v, reset)
 }
 
 func (h *Handler) extractAttrs(ctx context.Context, r slog.Record) (map[string]any, error) {
