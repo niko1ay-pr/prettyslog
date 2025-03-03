@@ -11,9 +11,6 @@ import (
 )
 
 const (
-	timeFormat = "[15:04:05.000]"
-	reset      = "\033[0m"
-
 	black = iota + 30
 	red
 	green
@@ -22,14 +19,17 @@ const (
 	magenta
 	cyan
 	lightGray
-	darkGray = iota + 90
-	lightRed
-	lightGreen
-	lightYellow
-	lightBlue
-	lightMagenta
-	lightCyan
-	white
+	darkGray     = 90
+	lightRed     = 91
+	lightGreen   = 92
+	lightYellow  = 93
+	lightBlue    = 94
+	lightMagenta = 95
+	lightCyan    = 96
+	white        = 97
+
+	timeFormat = "[15:04:05.000]"
+	reset      = "\033[0m"
 )
 
 type Handler struct {
